@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cozy Japanese • 日本語学習</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23fbeef2'/><g transform='translate(50,52)'><circle cx='0' cy='-22' r='14' fill='%23e39ba5'/><circle cx='21' cy='-7' r='14' fill='%23e39ba5'/><circle cx='13' cy='18' r='14' fill='%23e39ba5'/><circle cx='-13' cy='18' r='14' fill='%23e39ba5'/><circle cx='-21' cy='-7' r='14' fill='%23e39ba5'/><circle cx='0' cy='0' r='8' fill='%23c96a78'/></g></svg>">
+<style>
+:root{
+  --bg:#fbf6f6;--paper:#fffdfd;--ink:#3a3235;--muted:#736569;
+  --accent:#c96a78;--accent2:#e39ba5;--cream:#f5e6e8;--green:#7a9e85;
+  --red:#cc5e5e;--purple:#9077a8;--yellow:#e8bc6a;
+  --shadow:0 12px 35px rgba(83,63,68,.08);--radius:22px;
+  --spring:cubic-bezier(.34,1.56,.64,1);
+  --smooth:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);
+background:radial-gradient(circle at 10% 0%,#fff6f8 0 22%,transparent 40%),linear-gradient(135deg,#fbf6f6,#f8eff0 55%,#fcf6f7);min-height:100vh;overflow-x:hidden;
+background-size:200% 200%;animation:bgShift 20s ease infinite}
+@keyframes bgShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+body:before,body:after{content:"";position:fixed;width:180px;height:180px;border-radius:50%;filter:blur(10px);opacity:.25;pointer-events:none;z-index:-1}
+body:before{background:#e8b1b8;top:12%;left:-70px;animation:floatBlob 8s ease-in-out infinite}
+body:after{background:#b1cdbb;right:-70px;bottom:12%;animation:floatBlob 10s ease-in-out infinite reverse}
+@keyframes floatBlob{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(25px,-25px) scale(1.12)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(201,106,120,.35)}50%{box-shadow:0 0 0 14px rgba(201,106,120,0)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px) rotate(-2deg)}40%{transform:translateX(8px) rotate(2deg)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pop{0%,100%{transform:scale(.85);opacity:0}70%{transform:scale(1.08)}100%{transform:scale(1);opacity:1}}
+@keyframes bounceIn{0%{transform:scale(.4) translateY(30px);opacity:0}60%{transform:scale(1.1) translateY(-8px)}80%{transform:scale(.97)}100%{transform:scale(1) translateY(0);opacity:1}}
+@keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes gradientShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes sparkle{0%{transform:scale(0) rotate(0);opacity:0}50%{transform:scale(1.2) rotate(180deg);opacity:1}100%{transform:scale(0) rotate(360deg);opacity:0}}
+@keyframes ripple{0%{transform:scale(0);opacity:.6}100%{transform:scale(4);opacity:0}}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(201,106,120,.3)}50%{box-shadow:0 0 30px rgba(201,106,120,.6)}}
+@keyframes confettiFall{0%{transform:translateY(-10vh) rotate(0);opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+@keyframes tapHint{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-4px);opacity:1}}
+button{font:inherit}
+header{max-width:1120px;margin:auto;padding:28px 22px 10px;display:flex;justify-content:space-between;align-items:center;gap:20px;animation:fadeUp .6s var(--smooth) both}
+.brand{display:flex;align-items:center;gap:13px}
+.logo{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;display:grid;place-items:center;font-size:25px;box-shadow:var(--shadow);transition:.4s var(--spring);cursor:pointer}
+.logo:hover{transform:rotate(-12deg) scale(1.12);border-radius:24px}
+.brand h1{margin:0;font-size:21px}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}
+nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav{border:0;background:transparent;padding:10px 14px;border-radius:14px;color:var(--muted);cursor:pointer;position:relative;overflow:hidden;transition:.3s var(--spring)}
+.nav:before{content:"";position:absolute;inset:0;background:var(--paper);border-radius:14px;transform:scale(0);transition:.4s var(--spring);z-index:-1}
+.nav:hover:before,.nav.active:before{transform:scale(1)}
+.nav:hover,.nav.active{color:var(--accent);transform:translateY(-2px)}
+.nav:active{transform:scale(.95)}
+.nav.active{box-shadow:0 5px 18px rgba(83,63,68,.07)}
+main{max-width:1120px;margin:auto;padding:20px 22px 55px}
+.hero{animation:fadeUp .7s var(--smooth) both;background:linear-gradient(135deg,#fff4f5,#f8e8ea);background-size:200% 200%;border:1px solid #ebd8db;border-radius:30px;padding:35px;display:flex;justify-content:space-between;align-items:center;gap:25px;box-shadow:var(--shadow);overflow:hidden;position:relative;transition:.5s var(--spring)}
+.hero:hover{box-shadow:0 20px 50px rgba(83,63,68,.15);transform:translateY(-3px)}
+.hero:after{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(227,155,165,.15) 0%,transparent 40%);animation:gradientShift 8s ease infinite;background-size:50% 50%;pointer-events:none}
+.hero h2{font-size:38px;margin:0 0 8px;letter-spacing:-1px}
+.hero p{color:var(--muted);max-width:620px;line-height:1.65;margin:0}
+.hero-art{font-size:90px;opacity:.9;animation:float 4s ease-in-out infinite;cursor:pointer;user-select:none;transition:.3s var(--spring);position:relative;z-index:1}
+.hero-art:hover{transform:scale(1.15) rotate(6deg)}
+.section{margin-top:32px;animation:fadeUp .7s var(--smooth) both}
+.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.section h2{margin:0;font-size:22px;position:relative;display:inline-block}
+.section h2:after{content:"";position:absolute;left:0;bottom:-4px;height:3px;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;transition:.5s var(--spring)}
+.section:hover h2:after{width:100%}
+.section-head span{font-size:12px;color:var(--muted)}
+.section-note{font-size:13px;color:var(--muted);line-height:1.55;margin:0 0 16px;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px, 1fr));gap:14px}
+.card{background:rgba(255,253,253,.88);border:1px solid #eadbe0;border-radius:var(--radius);padding:20px;box-shadow:0 8px 25px rgba(83,63,68,.06);transition:.45s var(--spring);position:relative;overflow:hidden;animation:bounceIn .5s var(--spring) both;cursor:pointer}
+.card:before{content:"";position:absolute;top:50%;left:50%;width:5px;height:5px;background:rgba(201,106,120,.12);border-radius:50%;transform:translate(-50%,-50%) scale(0);transition:.6s var(--smooth)}
+.card:hover:before{transform:translate(-50%,-50%) scale(60)}
+.card:hover{transform:translateY(-8px) rotate(-1deg) scale(1.02);box-shadow:0 20px 40px rgba(83,63,68,.12);border-color:var(--accent2)}
+.card>*{position:relative;z-index:1}
+.ja{font-size:28px;font-weight:750;transition:.3s var(--spring); line-height: 1.4; overflow: visible}
+.card:hover .ja{transform:scale(1.05);color:var(--accent)}
+.ro{color:var(--accent);font-size:14px;margin-top:6px; font-weight: 500}
+.en{color:var(--muted);font-size:13px;margin-top:4px}
+.sound{float:right;border:0;background:linear-gradient(135deg,#f5e6e8,#ead6d9);width:36px;height:36px;border-radius:50%;cursor:pointer;color:var(--accent);font-size:16px;transition:.4s var(--spring);position:relative}
+.sound:hover{transform:scale(1.2) rotate(15deg);box-shadow:0 6px 18px rgba(201,106,120,.35)}
+.sound:active{transform:scale(.85) rotate(-15deg)}
+.sound.playing{animation:pulse .8s ease-out,wiggle .4s ease}
+.writer-wrap{background:linear-gradient(150deg,#fcf6f7,#f5e6e8);border:1px solid #ebd8db;border-radius:28px;padding:24px;box-shadow:0 12px 35px rgba(83,63,68,.08);position:relative;overflow:hidden}
+.writer-wrap:before{content:"✍️";position:absolute;top:14px;right:20px;font-size:26px;opacity:.35;animation:float 5s ease-in-out infinite}
+.writer-controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
+.writer-btn{border:1px solid #eadbe0;background:rgba(255,253,253,.9);padding:9px 16px;border-radius:99px;cursor:pointer;color:var(--muted);font-weight:600;font-size:13px;transition:.3s var(--spring);position:relative;overflow:hidden}
+.writer-btn:hover{transform:translateY(-3px) scale(1.05);border-color:var(--accent2);color:var(--accent);box-shadow:0 8px 18px rgba(83,63,68,.08)}
+.writer-btn.active{background:var(--ink);color:#fff;border-color:var(--ink)}
+.writer-hint{font-size:12px;color:var(--muted);margin-left:auto;font-style:italic;animation:tapHint 2.5s ease-in-out infinite}
+.stroke-grid{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;}
+.stroke-card{background:rgba(255,253,253,.92);border:1px solid #eadbe0;border-radius:20px;padding:14px;display:flex;flex-direction:column;align-items:center;gap:10px;transition:.4s var(--spring);position:relative;overflow:hidden;animation:bounceIn .5s var(--spring) both;cursor:pointer;flex:0 0 auto;max-width:100%}
+.stroke-card:hover{transform:translateY(-6px) rotate(-.5deg) scale(1.02);box-shadow:0 18px 36px rgba(83,63,68,.14);border-color:var(--accent2)}
+.stroke-card.active{box-shadow:0 18px 36px rgba(201,106,120,.25);border-color:var(--accent)}
+.writer-canvas-holder{position:relative;background:#fffdfd;border-radius:14px;border:2px dashed #ebd8db;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;padding:8px;transition:.3s var(--spring);max-width:100%}
+.stroke-card:hover .writer-canvas-holder{border-color:var(--accent);border-style:solid;box-shadow:inset 0 0 0 3px rgba(201,106,120,.06)}
+.writer-cell{position:relative;width:56px;height:56px;flex:0 0 auto;display:grid;place-items:center}
+.writer-cell.space{width:16px;height:56px;background:transparent}
+.writer-cell:not(.space):before{content:"";position:absolute;inset:0;border-radius:8px;
+background:
+  linear-gradient(to right, transparent calc(50% - .5px), rgba(201,106,120,.18) calc(50% - .5px), rgba(201,106,120,.18) calc(50% + .5px), transparent calc(50% + .5px)),
+  linear-gradient(to bottom, transparent calc(50% - .5px), rgba(201,106,120,.18) calc(50% - .5px), rgba(201,106,120,.18) calc(50% + .5px), transparent calc(50% + .5px)),
+  linear-gradient(45deg, transparent calc(50% - .5px), rgba(201,106,120,.10) calc(50% - .5px), rgba(201,106,120,.10) calc(50% + .5px), transparent calc(50% + .5px)),
+  linear-gradient(-45deg, transparent calc(50% - .5px), rgba(201,106,120,.10) calc(50% - .5px), rgba(201,106,120,.10) calc(50% + .5px), transparent calc(50% + .5px));
+pointer-events:none;z-index:0}
+.writer-target{position:relative;z-index:1}
+.stroke-label{text-align:center;line-height:1.25;width:100%}
+.stroke-label .ja{font-size:22px;font-weight:800;transition:.3s var(--spring)}
+.stroke-card:hover .stroke-label .ja{color:var(--accent);transform:scale(1.06)}
+.stroke-label .ro{font-size:12px;margin-top:3px;font-weight:600}
+.stroke-label .en{font-size:11px;margin-top:2px}
+.stroke-actions{display:flex;gap:6px;margin-top:2px}
+.stroke-action{border:0;background:#f5e6e8;color:var(--accent);width:30px;height:30px;border-radius:50%;font-size:13px;cursor:pointer;transition:.35s var(--spring);position:relative}
+.stroke-action:hover{transform:scale(1.15) rotate(10deg);background:#ead6d9;box-shadow:0 6px 14px rgba(201,106,120,.3)}
+.quiz-launch{background:linear-gradient(135deg,#fffdfd,#f6e6e8,#fae1e4);background-size:200% 200%;animation:gradientShift 10s ease infinite;border:1px solid #eadbe0;border-radius:28px;padding:38px;box-shadow:var(--shadow);text-align:center;position:relative;overflow:hidden}
+.quiz-launch:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 30% 30%,rgba(227,155,165,.18),transparent 50%);animation:gradientShift 6s ease infinite;pointer-events:none}
+.quiz-launch h3{margin:0 0 8px;font-size:26px;position:relative}
+.quiz-launch p{color:var(--muted);margin:0 0 22px;position:relative;font-size:15px}
+.launch-btn{position:relative;display:inline-flex;align-items:center;gap:10px;border:0;padding:18px 36px;font-size:17px;font-weight:700;color:#fff;border-radius:99px;cursor:pointer;overflow:hidden;background:linear-gradient(135deg,var(--accent),var(--accent2),var(--purple));background-size:200% 200%;animation:gradientShift 4s ease infinite,glow 3s ease infinite;transition:.4s var(--spring);box-shadow:0 12px 28px rgba(201,106,120,.35)}
+.launch-btn:hover{transform:translateY(-4px) scale(1.06);box-shadow:0 20px 42px rgba(201,106,120,.5)}
+.launch-btn:active{transform:scale(.96)}
+.launch-btn .arrow{transition:.4s var(--spring);display:inline-block}
+.launch-btn:hover .arrow{transform:translate(6px,-4px) rotate(10deg)}
+footer{text-align:center;color:#9b8c90;font-size:12px;padding:25px}
+footer span{display:inline-block;animation:float 3s ease-in-out infinite}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.6);transform:scale(0);animation:ripple .6s var(--smooth);pointer-events:none}
+.quiz-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#fbf6f6,#f8eff0);z-index:500;overflow-y:auto;animation:fadeUp .4s var(--smooth) both;padding:24px}
+.quiz-overlay.hidden{display:none}
+.quiz-frame{max-width:720px;margin:0 auto}
+.quiz-topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.quiz-brand{display:flex;align-items:center;gap:10px;font-weight:700}
+.quiz-brand .logo{width:38px;height:38px;border-radius:12px;font-size:20px}
+.close-btn{border:0;background:rgba(255,253,253,.85);color:var(--muted);padding:9px 16px;border-radius:12px;cursor:pointer;font-weight:600;transition:.3s var(--spring)}
+.close-btn:hover{background:#fff;color:var(--accent);transform:translateY(-2px) scale(1.05)}
+.quiz-card{background:rgba(255,253,253,.95);backdrop-filter:blur(8px);border:1px solid #eadbe0;border-radius:28px;padding:30px;box-shadow:0 20px 50px rgba(83,63,68,.14);position:relative;overflow:hidden}
+.quiz-card:before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 40%,rgba(227,155,165,.08) 70%,transparent);background-size:200% 200%;animation:gradientShift 8s ease infinite;pointer-events:none}
+.progress-track{height:12px;background:#eedae0;border-radius:99px;overflow:hidden;margin-bottom:16px;position:relative}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent),var(--purple));background-size:200% 200%;border-radius:99px;transition:width .5s var(--spring);width:0%;animation:gradientShift 3s ease infinite}
+.stats{display:flex;gap:18px;font-size:13px;color:var(--muted);margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.stats b{color:var(--ink);font-size:17px;font-weight:800}
+.stats .streak-fire{color:var(--accent);font-weight:700}
+.sparkle-stage{height:56px;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:12px;pointer-events:none;position:relative;overflow:hidden}
+.sparkle-stage .stage-sparkle{position:absolute;font-size:26px;animation:sparkleFloat 1.4s var(--smooth) forwards;opacity:0}
+@keyframes sparkleFloat{0%{transform:translateY(20px) scale(0) rotate(0);opacity:0}30%{transform:translateY(-6px) scale(1.15) rotate(140deg);opacity:1}60%{transform:translateY(-14px) scale(1) rotate(260deg);opacity:1}100%{transform:translateY(-42px) scale(.6) rotate(360deg);opacity:0}}
+.sparkle-stage .stage-label{color:var(--green);font-weight:700;font-size:14px;opacity:0;transition:opacity .3s;letter-spacing:.02em}
+.sparkle-stage.show-label .stage-label{opacity:1}
+.prompt-label{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent);font-weight:700;text-align:center;margin-bottom:6px}
+.quiz-word{font-size:48px;font-weight:800;line-height:1.1;text-align:center;margin-bottom:6px;letter-spacing:-1px;background:linear-gradient(135deg,var(--ink),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;animation:pop .45s var(--spring) both}
+.quiz-ro{color:var(--accent);font-size:16px;text-align:center;min-height:24px;font-weight:600}
+.quiz-hint{color:var(--ink);opacity:.7;font-size:13px;text-align:center;margin-top:4px;min-height:18px}
+.speak-row{display:flex;justify-content:center;margin:14px 0 22px}
+.speak-btn{border:0;background:linear-gradient(135deg,#f5e6e8,#ead6d9);color:var(--accent);width:52px;height:52px;border-radius:50%;font-size:22px;cursor:pointer;transition:.4s var(--spring);box-shadow:0 6px 18px rgba(201,106,120,.2)}
+.speak-btn:hover{transform:scale(1.15) rotate(12deg);box-shadow:0 10px 26px rgba(201,106,120,.4)}
+.speak-btn.playing{animation:pulse .8s ease-out}
+.answers{display:grid;gap:12px;grid-template-columns:1fr 1fr;margin-top:8px}
+.answer{border:2px solid #e2ccd2;background:#fff6f8;color:var(--ink);padding:16px 18px;border-radius:18px;cursor:pointer;transition:.35s var(--spring);font-size:16px;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:10px;position:relative;overflow:hidden;text-align:left;font-family:inherit}
+.answer:hover:not(:disabled){transform:translateY(-4px) scale(1.03);border-color:var(--accent);background:#fff1f4;box-shadow:0 12px 28px rgba(83,63,68,.15)}
+.answer:disabled{cursor:default;color:var(--ink);opacity:1}
+.answer .mark{font-weight:800;font-size:20px;opacity:0;transform:scale(0);transition:.3s var(--spring)}
+.answer.correct{background:linear-gradient(135deg,#e9f1e6,#d8ead2);border-color:var(--green);color:#3f5a44}
+.answer.correct .mark{opacity:1;transform:scale(1);color:var(--green)}
+.answer.correct .mark:before{content:"✓"}
+.answer.wrong{background:linear-gradient(135deg,#fae1e4,#f6d4d8);border-color:var(--red);color:#7a2933;animation:shake .4s}
+.answer.wrong .mark{opacity:1;transform:scale(1);color:var(--red)}
+.answer.wrong .mark:before{content:"✕"}
+.answer.dim{opacity:.7;color:var(--muted)}
+.result{text-align:center;margin-top:20px;font-size:15px;font-weight:700;min-height:24px;transition:.3s}
+.result.good{color:var(--green);animation:pop .4s var(--spring)}
+.result.bad{color:var(--red);animation:pop .4s var(--spring)}
+.actions{display:flex;gap:12px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.btn{border:0;padding:14px 28px;border-radius:16px;cursor:pointer;font-weight:700;font-size:15px;transition:.35s var(--spring);position:relative;overflow:hidden;font-family:inherit}
+.btn-primary{color:#fff;background:linear-gradient(135deg,var(--accent),var(--accent2));background-size:200% 200%;animation:gradientShift 4s ease infinite}
+.btn-primary:hover:not(:disabled){transform:translateY(-4px) scale(1.05);box-shadow:0 14px 30px rgba(201,106,120,.45)}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed;animation:none;background:#dfc7cc;color:#fff}
+.btn-ghost{background:#f5e6e8;color:var(--accent)}
+.btn-ghost:hover{background:#ead6d9;transform:translateY(-4px) scale(1.05)}
+.done{text-align:center;padding:20px 10px;animation:bounceIn .6s var(--spring) both}
+.done .big{font-size:80px;line-height:1;margin-bottom:12px;animation:float 3s ease-in-out infinite}
+.done h3{margin:0 0 8px;font-size:28px}
+.done .score-line{font-size:40px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;margin:8px 0}
+.done p{color:var(--muted);margin:0 0 24px;font-size:15px}
+@media(max-width:520px){
+  .answers{grid-template-columns:1fr}
+  .quiz-word{font-size:36px}
+  .quiz-overlay{padding:14px}
+  .quiz-card{padding:22px}
+  .writer-cell{width:46px;height:46px}
+  .writer-canvas-holder{padding:6px;gap:4px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand"><div class="logo" onclick="wiggleLogo(this)">日</div><div><h1>Cozy Japanese</h1><p>日本語学習 · Learn a little every day</p></div></div>
+  <nav>
+    <button class="nav active" data-go="home">Home</button>
+    <button class="nav" data-go="cities">Cities</button>
+    <button class="nav" data-go="grades">Grades</button>
+    <button class="nav" data-go="numbers">Numbers</button>
+    <button class="nav" data-go="write">How to Write</button>
+    <button class="nav" data-go="quiz">Practice</button>
+  </nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <div><h2>こんにちは! 👋</h2><p>Build your Japanese vocabulary. Explore cities, school grades, and learn how to write characters stroke-by-stroke.</p></div>
+  <div class="hero-art" onclick="speak('さくら', this); burst(this)" title="Tap to hear" lang="ja" aria-label="Hear Sakura">🌸</div>
+</section>
+
+<section class="section" id="cities">
+  <div class="section-head"><h2>Cities</h2><span>どこに すんでいますか？ (Where do you live?)</span></div>
+  <p class="section-note">Tap 🔊 to hear the city pronounced in Japanese.</p>
+  <div class="grid" id="citiesGrid"></div>
+</section>
+
+<section class="section" id="grades">
+  <div class="section-head"><h2>School Grades</h2><span>小学・中学・高校</span></div>
+  <p class="section-note">Primary (Years 1-6), Middle (Years 7-9), and High School (M4-M6) grades.</p>
+  <div class="grid" id="gradesGrid"></div>
+</section>
+
+<section class="section" id="numbers">
+  <div class="section-head"><h2>Numbers 0–9</h2><span>数字 · すうじ</span></div>
+  <p class="section-note">Observe the red pitch accent lines from your textbook! Tap 🔊 to hear pronunciation.</p>
+  <div class="grid" id="numbersGrid"></div>
+</section>
+
+<section class="section" id="write">
+  <div class="section-head">
+    <h2>How to write</h2>
+    <span>かきかた</span>
+  </div>
+  <p class="section-note">Tap any card below to watch the Kana drawn stroke by stroke!</p>
+  <div class="writer-wrap">
+    <div class="writer-controls" id="writerControls">
+      <button class="writer-btn active" data-wfilter="all">All</button>
+      <button class="writer-btn" data-wfilter="cities">Cities</button>
+      <button class="writer-btn" data-wfilter="grades">Grades</button>
+      <button class="writer-btn" data-wfilter="numbers">Numbers</button>
+      <span class="writer-hint">👆 Tap a card to animate</span>
+    </div>
+    <div class="stroke-grid" id="strokeGrid"></div>
+  </div>
+</section>
+
+<section class="section" id="quiz">
+  <div class="section-head"><h2>Quick practice</h2><span>練習 · れんしゅう</span></div>
+  <div class="quiz-launch">
+    <h3>Ready to test yourself? 🎯</h3>
+    <p>10 questions on numbers, cities, and school grades.</p>
+    <button class="launch-btn" onclick="openQuiz()">
+      Start Quick Practice <span class="arrow">→</span>
+    </button>
+  </div>
+</section>
+</main>
+<footer>ゆっくり · <span>Learn slowly, remember more.</span></footer>
+
+<div class="quiz-overlay hidden" id="quizOverlay">
+  <div class="quiz-frame">
+    <div class="quiz-topbar">
+      <div class="quiz-brand"><div class="logo">日</div><span>Quick Practice</span></div>
+      <button class="close-btn" onclick="closeQuiz()">Close ✕</button>
+    </div>
+
+    <div class="quiz-card" id="quizCard">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="stats">
+        <span>Question <b id="qNum">1</b>/<b id="qTotal">10</b></span>
+        <span>Score <b id="scoreNum">0</b></span>
+        <span class="streak-fire">🔥 <b id="streakNum">0</b></span>
+      </div>
+
+      <div class="sparkle-stage" id="sparkleStage">
+        <span class="stage-label" id="stageLabel">✓ Correct!</span>
+      </div>
+
+      <div class="prompt-label" id="promptLabel">What does this mean?</div>
+      <div class="quiz-word" id="quizJa" lang="ja">とうきょう</div>
+      <div class="quiz-ro" id="quizRo">tōkyō</div>
+      <div class="quiz-hint" id="quizHint"></div>
+
+      <div class="speak-row">
+        <button class="speak-btn" id="speakBtn" aria-label="Hear the word">🔊</button>
+      </div>
+
+      <div class="answers" id="answers"></div>
+      <div class="result" id="result"></div>
+    </div>
+
+    <div class="actions" id="actions" style="margin-top:22px">
+      <button class="btn btn-primary" id="nextBtn" disabled>Next →</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5.0/dist/hanzi-writer.min.js"></script>
+
+<script>
+// Format: [Main Text (Kana), Romaji, English Translation, Category, Custom Pitch HTML (Optional)]
+const cities = [
+  ["ロンドン", "rondon", "London", "cities"],
+  ["パリ", "pari", "Paris", "cities"],
+  ["ニューヨーク", "nyūyōku", "New York", "cities"],
+  ["ぺきん", "pekin", "Beijing", "cities"],
+  ["おおさか", "ōsaka", "Osaka", "cities"],
+  ["とうきょう", "tōkyō", "Tokyo", "cities"],
+  ["きょうと", "kyōto", "Kyoto", "cities"],
+  ["さっぽろ", "sapporo", "Sapporo", "cities"],
+  ["バンコク", "bankoku", "Bangkok", "cities"]
+];
+
+const grades = [
+  ["しょうがく いちねんせい", "shōgaku ichi nensē", "Year 1", "grades"],
+  ["しょうがく にねんせい", "shōgaku ni nensē", "Year 2", "grades"],
+  ["しょうがく さんねんせい", "shōgaku san nensē", "Year 3", "grades"],
+  ["しょうがく よねんせい", "shōgaku yo nensē", "Year 4", "grades"],
+  ["しょうがく ごねんせい", "shōgaku go nensē", "Year 5", "grades"],
+  ["しょうがく ろくねんせい", "shōgaku roku nensē", "Year 6", "grades"],
+  ["ちゅうがく いちねんせい", "chūgaku ichi nensē", "Year 7", "grades"],
+  ["ちゅうがく にねんせい", "chūgaku ni nensē", "Year 8", "grades"],
+  ["ちゅうがく さんねんせい", "chūgaku san nensē", "Year 9", "grades"],
+  ["こうこう いちねんせい", "kōkō ichi nensē", "M4", "grades"],
+  ["こうこう にねんせい", "kōkō ni nensē", "M5", "grades"],
+  ["こうこう さんねんせい", "kōkō san nensē", "M6", "grades"]
+];
+
+const numbers = [
+  ["ゼロ", "zero", "0", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>ゼ</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>ロ</span>"],
+  ["いち", "ichi", "1", "numbers",
+    "<span style='padding:0 3px;display:inline-block;line-height:1.3;'>い</span><span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>ち</span>"],
+  ["に", "ni", "2", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>に</span>"],
+  ["さん", "san", "3", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>さ</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>ん</span>"],
+  ["よん", "yon", "4", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>よ</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>ん</span>"],
+  ["ご", "go", "5", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>ご</span>"],
+  ["ろく", "roku", "6", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>ろ</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>く</span>"],
+  ["なな", "nana", "7", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>な</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>な</span>"],
+  ["はち", "hachi", "8", "numbers",
+    "<span style='padding:0 3px;display:inline-block;line-height:1.3;'>は</span><span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>ち</span>"],
+  ["きゅう", "kyū", "9", "numbers",
+    "<span style='border-top:2.5px solid #c25b4e;border-right:2.5px solid #c25b4e;padding:0 3px;display:inline-block;line-height:1.3;'>き</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>ゅ</span><span style='padding:0 3px;display:inline-block;line-height:1.3;'>う</span>"]
+];
+
+function speak(text, el){
+  if(!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const ttsText = text.replace(/\s+/g, '');
+  const u = new SpeechSynthesisUtterance(ttsText);
+  u.lang = "ja-JP"; u.rate = 0.85;
+  speechSynthesis.speak(u);
+  document.querySelectorAll(".sound.playing").forEach(b=>b.classList.remove("playing"));
+  if(el && el.classList.contains("sound")){
+    el.classList.add("playing");
+    setTimeout(()=>el.classList.remove("playing"),900);
+  }
+}
+
+function burst(el){
+  const emojis = ["🌸","✨","⭐","🍡","🗻","🎉"];
+  const rect = el.getBoundingClientRect();
+  for(let i=0;i<8;i++){
+    const s = document.createElement("div");
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.cssText = `position:fixed;left:${rect.left+rect.width/2}px;top:${rect.top+rect.height/2}px;font-size:${14+Math.random()*18}px;pointer-events:none;z-index:9999;animation:sparkle ${.8+Math.random()*.5}s var(--smooth) forwards;transform-origin:center;`;
+    document.body.appendChild(s);
+    const angle = (Math.PI*2*i)/8 + Math.random()*.5;
+    const dist = 60 + Math.random()*60;
+    const dx = Math.cos(angle)*dist;
+    const dy = Math.sin(angle)*dist - 20;
+    s.animate([
+      {transform:"translate(0,0) scale(0) rotate(0)",opacity:0},
+      {transform:`translate(${dx*.5}px,${dy*.5}px) scale(1.3) rotate(180deg)`,opacity:1,offset:.5},
+      {transform:`translate(${dx}px,${dy}px) scale(0) rotate(360deg)`,opacity:0}
+    ],{duration:900+Math.random()*400,easing:"cubic-bezier(.22,1,.36,1)"}).onfinish=()=>s.remove();
+  }
+}
+
+function wiggleLogo(el){
+  el.style.animation="wiggle .5s ease";
+  burst(el);
+  setTimeout(()=>el.style.animation="",500);
+}
+
+document.addEventListener("click", e=>{
+  const btn = e.target.closest(".nav, .sound, .answer, .launch-btn, .card, .close-btn, .btn, .stroke-action");
+  if(!btn) return;
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  const r = document.createElement("span");
+  r.className = "ripple";
+  r.style.width = r.style.height = size + "px";
+  r.style.left = (e.clientX - rect.left - size/2) + "px";
+  r.style.top = (e.clientY - rect.top - size/2) + "px";
+  if(getComputedStyle(btn).position === "static") btn.style.position = "relative";
+  btn.appendChild(r);
+  setTimeout(()=>r.remove(),600);
+});
+
+document.querySelectorAll(".nav").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");
+  if(b.dataset.go === "quiz"){ openQuiz(); return; }
+  const el=document.getElementById(b.dataset.go);
+  if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+});
+
+function renderGrid(containerId, dataArray) {
+  const grid = document.getElementById(containerId);
+  grid.innerHTML = dataArray.map((item, i) => {
+    const displayText = item[4] || item[0];
+    return `
+    <div class="card" style="animation-delay:${i*.04}s" onclick="speak('${item[0]}', this.querySelector('.sound'))">
+      <button class="sound" onclick="event.stopPropagation();speak('${item[0]}', this)" aria-label="Hear ${item[0]}">🔊</button>
+      <div class="ja" lang="ja">${displayText}</div>
+      <div class="ro">${item[1]}</div>
+      <div class="en">${item[2]}</div>
+    </div>`;
+  }).join("");
+}
+
+renderGrid("citiesGrid", cities);
+renderGrid("gradesGrid", grades);
+renderGrid("numbersGrid", numbers);
+
+const ALL_VOCAB = [...cities, ...grades, ...numbers];
+
+const WRITER_ENTRIES = [];
+ALL_VOCAB.forEach(item => {
+  WRITER_ENTRIES.push({ text: item[0], ja: item[0], ro: item[1], en: item[2], pool: item[3] });
+});
+
+const CARD_WRITERS = [];
+
+function buildStrokeGrid(){
+  const grid = document.getElementById("strokeGrid");
+  grid.innerHTML = WRITER_ENTRIES.map((entry, i) => {
+    const chars = [...entry.text];
+    const cells = chars.map((c, ci) => {
+      if (c === " ") return `<div class="writer-cell space"></div>`;
+      return `
+      <div class="writer-cell">
+        <div class="writer-target" id="wt-${i}-${ci}"></div>
+      </div>`;
+    }).join("");
+    return `
+      <div class="stroke-card" data-idx="${i}" data-pool="${entry.pool}" style="animation-delay:${Math.min(i,20)*.02}s">
+        <div class="writer-canvas-holder">
+          ${cells}
+        </div>
+        <div class="stroke-label">
+          <div class="ja" lang="ja">${entry.text}</div>
+          <div class="ro">${entry.ro}</div>
+          <div class="en">${entry.en}</div>
+        </div>
+        <div class="stroke-actions">
+          <button class="stroke-action" data-replay="${i}" title="Replay">▶</button>
+          <button class="stroke-action" data-speak="${entry.ja}" title="Hear">🔊</button>
+        </div>
+      </div>`;
+  }).join("");
+
+  WRITER_ENTRIES.forEach((entry, i) => {
+    const chars = [...entry.text];
+    const writers = [];
+    chars.forEach((c, ci) => {
+      if (c === " ") return;
+      const target = document.getElementById(`wt-${i}-${ci}`);
+      const writer = HanziWriter.create(target, c, {
+        width: 56, height: 56, padding: 4,
+        showOutline: true, showCharacter: false,
+        strokeColor: "#c96a78", outlineColor: "#eadbe0", radicalColor: "#9077a8",
+        strokeAnimationSpeed: 1.2, delayBetweenStrokes: 180,
+        strokeHighlightSpeed: 1.6, drawingWidth: 12,
+        charDataLoader: (char, onLoad, onError) => {
+          fetch(`https://unpkg.com/@k1low/hanzi-writer-data-jp@latest/${encodeURIComponent(char)}.json`)
+            .then(res => {
+              if (res.ok) return res.json();
+              throw new Error('not found');
+            })
+            .then(onLoad)
+            .catch(onError);
+        }
+      });
+      writers.push(writer);
+    });
+    CARD_WRITERS.push({ card: grid.querySelector(`[data-idx="${i}"]`), writers });
+  });
+
+  CARD_WRITERS.forEach((item, i) => {
+    item.card.addEventListener("click", (e) => {
+      if(e.target.closest(".stroke-action")) return;
+      playSequence(i, item.card);
+    });
+  });
+
+  grid.querySelectorAll("[data-replay]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); burst(btn);
+      playSequence(parseInt(btn.dataset.replay, 10), CARD_WRITERS[btn.dataset.replay].card);
+    });
+  });
+
+  grid.querySelectorAll("[data-speak]").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.stopPropagation(); burst(btn);
+      speak(btn.dataset.speak, null);
+    });
+  });
+}
+
+document.querySelectorAll(".writer-btn[data-wfilter]").forEach(b => {
+  b.addEventListener("click", () => {
+    document.querySelectorAll(".writer-btn[data-wfilter]").forEach(x => x.classList.remove("active"));
+    b.classList.add("active");
+    const f = b.dataset.wfilter;
+    document.querySelectorAll("#strokeGrid .stroke-card").forEach(card => {
+      const pool = card.dataset.pool;
+      card.style.display = (f === "all" || pool === f) ? "" : "none";
+    });
+  });
+});
+
+function playSequence(idx, cardEl){
+  const item = CARD_WRITERS[idx];
+  if(!item) return;
+  document.querySelectorAll(".stroke-card.active").forEach(c => c.classList.remove("active"));
+  cardEl.classList.add("active");
+  setTimeout(()=>cardEl.classList.remove("active"), 1200);
+
+  const { writers } = item;
+  writers.forEach(w => { try { w.cancelQuiz(); } catch(e){} });
+  writers.forEach(w => { try { w.hideCharacter({ duration: 0 }); } catch(e) {} });
+
+  let i = 0;
+  function next(){
+    if(i >= writers.length) return;
+    writers[i].animateCharacter({
+      onComplete: () => { i++; setTimeout(next, 220); }
+    });
+  }
+  next();
+}
+
+const TOTAL = 10;
+const QUIZ_POOL = ALL_VOCAB.map(item => ({
+  ja: item[0], ro: item[1], en: item[2], pool: item[3], 
+  label: item[3] === "numbers" ? "Which number is this?" : 
+         item[3] === "cities" ? "Which city is this?" : "What grade is this?", 
+  hint: item[3].charAt(0).toUpperCase() + item[3].slice(1)
+}));
+
+let questions=[], current=0, score=0, streak=0, bestStreak=0, answered=false;
+
+const el = {
+  overlay: document.getElementById("quizOverlay"), card: document.getElementById("quizCard"),
+  actions: document.getElementById("actions"), qNum: document.getElementById("qNum"),
+  qTotal: document.getElementById("qTotal"), score: document.getElementById("scoreNum"),
+  streak: document.getElementById("streakNum"), progress: document.getElementById("progressFill"),
+  stage: document.getElementById("sparkleStage"), stageLabel: document.getElementById("stageLabel"),
+  ja: document.getElementById("quizJa"), ro: document.getElementById("quizRo"),
+  hint: document.getElementById("quizHint"), label: document.getElementById("promptLabel"),
+  answers: document.getElementById("answers"), result: document.getElementById("result"),
+  next: document.getElementById("nextBtn"), speakBtn: document.getElementById("speakBtn")
+};
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function openQuiz(){
+  el.overlay.classList.remove("hidden");
+  document.body.style.overflow = "hidden";
+  startQuiz();
+}
+function closeQuiz(){
+  el.overlay.classList.add("hidden");
+  document.body.style.overflow = "";
+  speechSynthesis && speechSynthesis.cancel();
+}
+document.addEventListener("keydown", e=>{
+  if(e.key === "Escape" && !el.overlay.classList.contains("hidden")) closeQuiz();
+});
+
+function startQuiz(){
+  questions = shuffle(QUIZ_POOL).slice(0, TOTAL);
+  current = 0; score = 0; streak = 0; bestStreak = 0; answered = false;
+  el.actions.style.display = "";
+  el.actions.innerHTML = '<button class="btn btn-primary" id="nextBtn" disabled>Next →</button>';
+  el.next = document.getElementById("nextBtn");
+  el.next.onclick = nextQuestion;
+  renderQuiz(); updateStats();
+}
+
+function updateStats(){
+  el.qNum.textContent = Math.min(current+1, TOTAL);
+  el.qTotal.textContent = TOTAL;
+  el.score.textContent = score;
+  el.streak.textContent = streak;
+  el.progress.style.width = ((current)/TOTAL*100) + "%";
+}
+
+function clearStage(){
+  el.stage.querySelectorAll(".stage-sparkle").forEach(s=>s.remove());
+  el.stage.classList.remove("show-label");
+}
+
+function playStageSparkles(label){
+  clearStage();
+  el.stageLabel.textContent = label;
+  el.stage.classList.add("show-label");
+  const emojis = ["✨","🌸","💫","⭐","🎉","🌈","💖"];
+  for(let i=0;i<6;i++){
+    const s = document.createElement("span");
+    s.className = "stage-sparkle";
+    s.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+    s.style.left = (8 + Math.random()*84) + "%";
+    s.style.animationDelay = (i*0.06) + "s";
+    s.style.fontSize = (20 + Math.random()*16) + "px";
+    el.stage.appendChild(s);
+  }
+  setTimeout(()=>el.stage.classList.remove("show-label"), 1200);
+}
+
+function renderQuiz(){
+  answered = false; clearStage();
+  el.result.textContent = ""; el.result.className = "result";
+  el.next.disabled = true;
+
+  const q = questions[current];
+  el.ja.textContent = q.ja;
+  el.ro.textContent = q.ro;
+  el.label.textContent = q.label;
+  el.hint.textContent = q.hint ? ("Category: " + q.hint) : "";
+
+  el.ja.style.animation = "none";
+  void el.ja.offsetWidth;
+  el.ja.style.animation = "";
+
+  const pool = QUIZ_POOL.filter(x => x.pool === q.pool && x.en !== q.en);
+  const distractors = shuffle(pool).slice(0, 3);
+  const opts = shuffle([q].concat(distractors));
+
+  let html = "";
+  for(let i=0;i<opts.length;i++){
+    html += `<button class="answer" data-val="${opts[i].en.replace(/"/g,'&quot;')}" style="animation-delay:${i*.06}s">
+             <span>${opts[i].en}</span><span class="mark"></span></button>`;
+  }
+  el.answers.innerHTML = html;
+  el.answers.querySelectorAll(".answer").forEach(b=>{
+    b.onclick = (e) => chooseAnswer(b, b.dataset.val, q.en, e);
+  });
+}
+
+function chooseAnswer(btn, got, correct, e){
+  if(answered) return;
+  answered = true;
+  const buttons = el.answers.querySelectorAll(".answer");
+
+  if(got === correct){
+    score++; streak++;
+    if(streak > bestStreak) bestStreak = streak;
+    btn.classList.add("correct");
+    buttons.forEach(b=>{ if(b !== btn) b.classList.add("dim"); });
+    const praise = ["✓ Correct!","✓ Nice one!","✓ 素晴らしい! (Subarashii!)","✓ You got it!","✓ Well done!"][Math.floor(Math.random()*5)];
+    el.result.textContent = "";
+    el.result.className = "result good";
+    playStageSparkles(praise);
+    speak(questions[current].ja, null);
+  } else {
+    streak = 0;
+    btn.classList.add("wrong");
+    buttons.forEach(b=>{
+      b.disabled = true;
+      if(b.dataset.val === correct){ b.classList.add("correct"); }
+      else if(b !== btn){ b.classList.add("dim"); }
+    });
+    el.result.textContent = 'Not quite — the answer is "' + correct + '".';
+    el.result.className = "result bad";
+  }
+  buttons.forEach(b=>b.disabled = true);
+  el.next.disabled = false;
+  updateStats();
+}
+
+function nextQuestion(){
+  if(current < TOTAL-1){ current++; renderQuiz(); updateStats(); }
+  else { finishQuiz(); }
+}
+
+function finishQuiz(){
+  el.progress.style.width = "100%";
+  const pct = Math.round(score/TOTAL*100);
+  let msg, icon;
+  if(pct === 100){ msg = "Perfect score! 完璧! (Kanpeki!)"; icon = "🎉"; confettiRain(); }
+  else if(pct >= 80){ msg = "Great work! 素晴らしい!"; icon = "🌟"; confettiRain(); }
+  else if(pct >= 50){ msg = "Good effort — keep practising!"; icon = "👍"; }
+  else { msg = "Nice start — try again to improve!"; icon = "💪"; }
+
+  el.card.innerHTML = `
+    <div class="done">
+      <div class="big">${icon}</div>
+      <h3>Quiz complete!</h3>
+      <div class="score-line">${score} / ${TOTAL}</div>
+      <p>${msg} Best streak: ${bestStreak}.</p>
+      <div class="actions">
+        <button class="btn btn-primary" id="againBtn">Play Again 🔁</button>
+        <button class="btn btn-ghost" id="doneCloseBtn">Close</button>
+      </div>
+    </div>`;
+  document.getElementById("againBtn").onclick = startQuiz;
+  document.getElementById("doneCloseBtn").onclick = closeQuiz;
+}
+
+function confettiRain(){
+  const colors = ["#c96a78","#e39ba5","#7a9e85","#9077a8","#e8bc6a","#e8b1b8"];
+  for(let i=0;i<60;i++){
+    const c = document.createElement("div");
+    c.style.cssText = `position:fixed;top:-20px;width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;background:${colors[i%colors.length]};left:${Math.random()*100}vw;pointer-events:none;z-index:9999;border-radius:${Math.random()<.5?"50%":"2px"};animation:confettiFall ${2+Math.random()*2}s linear forwards;animation-delay:${Math.random()*.5}s;transform:rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),4500);
+  }
+}
+
+el.speakBtn.onclick = ()=>{
+  if(questions[current]) speak(questions[current].ja, el.speakBtn);
+};
+
+buildStrokeGrid();
+</script>
+</body>
+</html>
